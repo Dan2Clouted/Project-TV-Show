@@ -1,40 +1,190 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
+  background-color: #0f0d19;
+  color: white;
   padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 70px;
 }
 
-#show-selector {
-  padding: 5px;
-  font-size: 1rem;
+/* 🔥 HEADER */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  font-size: 2.5rem;
   margin-bottom: 10px;
 }
 
-#search {
-  width: 25%;
-  padding: 5px;
+#show-count {
   margin-bottom: 20px;
-  font-size: 1rem;
 }
 
+/* 🔥 SEARCH PILL */
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.search-wrapper input {
+  width: 300px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: 1px solid #ffc900;
+  background-color: #1a1826;
+  color: white;
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.5),
+    0 0 10px rgba(255, 201, 0, 0.3);
+}
+
+/* Episode Grid */
 #root {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
 }
 
+/* Episode Cards */
 .episode-card {
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
+  background-color: #1a1826;
+  border-radius: 10px;
+  padding: 12px;
+  transition: 0.2s;
 }
 
-img {
-  width: 100%;
+.episode-card:hover {
+  transform: translateY(-5px);
+  border: 1px solid #ffc900;
+  box-shadow: 0 0 10px #ffc900;
 }
 
-h2 {
+.episode-card h2 {
+  color: #ffc900;
   font-size: 1rem;
   text-align: center;
+}
+
+.episode-card img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+/* 🔥 SHOW GRID (smaller cards) */
+#shows-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  margin: 40px 0;
+}
+
+.show-card {
+  background-color: #1a1826; /* your purple */
+  border-radius: 10px;
+  padding: 15px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  min-height: 350px; /* 👈 keeps them balanced but not forced */
+}
+
+.show-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.show-card p {
+  font-size: 0.85rem;
+  overflow: hidden;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* 👈 max lines */
+  -webkit-box-orient: vertical;
+}
+
+.show-card h2 {
+  font-size: 1rem;
+  color: #ffc900;
+  margin-bottom: 6px;
+}
+.show-card:hover {
+  transform: scale(1.03);
+  border: 1px solid #ffc900;
+}
+
+/*  Controls container */
+.controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+#back-btn {
+  background-color: #ffc900;
+  color: #0f0d19;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#back-btn:hover {
+  opacity: 0.9;
+}
+
+#search {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 1px solid #ffc900;
+  background-color: #1a1826;
+  color: white;
+  outline: none;
+}
+
+#show-select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ffc900;
+  background-color: #1a1826;
+  color: white;
+  cursor: pointer;
+}
+
+/* Buttons */
+button {
+  background-color: #ffc900;
+  color: #0f0d19;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 6px;
+}
+
+/* Footer */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  background-color: #ffc900;
+  color: #0f0d19;
+
+  text-align: center;
+  padding: 10px;
+
+  font-weight: bold;
 }

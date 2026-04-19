@@ -1,34 +1,48 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TV Show Project | Daniel Aderibigbe (Dan2Clouted)</title>
+    <link href="style.css" rel="stylesheet" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TV Show Project | Daniel Aderibigbe (Dan2Clouted)</title>
-  <link href="style.css" rel="stylesheet" />
-  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-</head>
+  <body>
+    <!-- 🔥 SHOWS VIEW -->
+    <div id="shows-view">
+      <div class="header">
+        <h1>TV Show Episodes</h1>
+        <p id="show-count"></p>
 
-<body>
-  <select id="show-selector"></select>
-  <input id="search" placeholder="Search episodes..." />
-  <select id="show-select"></select>
+        <div class="search-wrapper">
+          <input id="show-search" placeholder="Search..." />
+        </div>
+      </div>
 
-  <p id="count"></p>
-  <p id="message">Loading...</p>
+      <div id="shows-container"></div>
+    </div>
 
-  <div id="root"></div>
+    <!-- 📺 EPISODES VIEW -->
+    <div id="episodes-view" style="display: none">
+      <div class="controls">
+        <button id="back-btn">← Back</button>
+        <input id="search" placeholder="Search episodes..." />
+        <select id="show-select"></select>
+      </div>
 
-  <script src="script.js"></script>
+      <p id="message"></p>
+      <p id="count"></p>
 
-  <div class="tvMaze">
-    <p>
-      Data originally sourced from
-      <a href="https://www.tvmaze.com" target="_blank" rel="noopener noreferrer">
-        TVMaze.com
-      </a>.
-    </p>
-  </div>
-</body>
+      <div id="root"></div>
+    </div>
 
+    <footer class="footer">
+      <p>
+        Data originally sourced from
+        <a href="https://www.tvmaze.com" target="_blank"> TVMaze.com </a>
+      </p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
 </html>
