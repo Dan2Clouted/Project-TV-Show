@@ -23,12 +23,16 @@ body {
   margin-bottom: 20px;
 }
 
-/* 🔥 SEARCH PILL */
+/* 🔥 SEARCH + SELECT WRAPPER */
 .search-wrapper {
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
+/* 🔍 SEARCH INPUT */
 .search-wrapper input {
   width: 300px;
   padding: 12px 20px;
@@ -40,6 +44,45 @@ body {
   box-shadow:
     0 8px 20px rgba(0, 0, 0, 0.5),
     0 0 10px rgba(255, 201, 0, 0.3);
+
+  outline: none;
+}
+
+/* 🎯 SHOW SELECTOR (FIXED STYLE) */
+#show-selector {
+  background-color: #1a1826;
+  color: white;
+
+  border: 1px solid #ffc900;
+  border-radius: 30px;
+
+  padding: 12px 20px;
+  font-size: 1rem;
+
+  cursor: pointer;
+  outline: none;
+
+  min-width: 220px;
+
+  /* remove default browser style */
+  appearance: none;
+
+  /* custom arrow */
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23FFC900' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 16px;
+
+  transition: all 0.2s ease;
+}
+
+#show-selector:hover {
+  box-shadow: 0 0 10px #ffc900;
+}
+
+#show-selector option {
+  background-color: #1a1826;
+  color: white;
 }
 
 /* Episode Grid */
@@ -74,7 +117,7 @@ body {
   border-radius: 6px;
 }
 
-/* 🔥 SHOW GRID (smaller cards) */
+/* 🔥 SHOW GRID */
 #shows-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -83,7 +126,7 @@ body {
 }
 
 .show-card {
-  background-color: #1a1826; /* your purple */
+  background-color: #1a1826;
   border-radius: 10px;
   padding: 15px;
 
@@ -91,7 +134,7 @@ body {
   flex-direction: column;
   gap: 10px;
 
-  min-height: 350px; /* 👈 keeps them balanced but not forced */
+  min-height: 350px;
 }
 
 .show-card img {
@@ -106,7 +149,7 @@ body {
   overflow: hidden;
 
   display: -webkit-box;
-  -webkit-line-clamp: 4; /* 👈 max lines */
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
 }
 
@@ -115,12 +158,13 @@ body {
   color: #ffc900;
   margin-bottom: 6px;
 }
+
 .show-card:hover {
   transform: scale(1.03);
   border: 1px solid #ffc900;
 }
 
-/*  Controls container */
+/* 🎛 CONTROLS */
 .controls {
   display: flex;
   gap: 15px;
@@ -129,6 +173,7 @@ body {
   margin: 20px 0;
   flex-wrap: wrap;
 }
+
 #back-btn {
   background-color: #ffc900;
   color: #0f0d19;
@@ -153,9 +198,10 @@ body {
   outline: none;
 }
 
+/* 🎯 EPISODE SELECT */
 #show-select {
-  padding: 10px;
-  border-radius: 8px;
+  padding: 10px 15px;
+  border-radius: 20px;
   border: 1px solid #ffc900;
   background-color: #1a1826;
   color: white;

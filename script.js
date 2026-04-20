@@ -2,6 +2,9 @@ let allShows = [];
 let allEpisodes = [];
 let episodeCache = {};
 
+// ========================
+// INIT
+// ========================
 function setup() {
   fetch("https://api.tvmaze.com/shows")
     .then((res) => res.json())
@@ -15,10 +18,32 @@ function setup() {
       renderShows(allShows);
       updateShowCount(allShows.length, allShows.length);
       setupShowSearch();
+      populateShowSelector(shows);
     });
 }
 
-// 🎬 SHOWS LIST
+// ========================
+// SHOW SELECTOR
+// ========================
+function populateShowSelector(shows) {
+  const selector = document.getElementById("show-selector");
+  selector.innerHTML = "";
+
+  shows.forEach((show) => {
+    const option = document.createElement("option");
+    option.value = show.id;
+    option.textContent = show.name;
+    selector.appendChild(option);
+  });
+
+  selector.onchange = function () {
+    openShow(selector.value);
+  };
+}
+
+// ========================
+// RENDER SHOWS
+// ========================
 function renderShows(showList) {
   const container = document.getElementById("shows-container");
   container.innerHTML = "";
@@ -28,23 +53,23 @@ function renderShows(showList) {
     card.classList.add("show-card");
 
     card.innerHTML = `
-  <h2>${show.name}</h2>
+      <h2>${show.name}</h2>
 
-  <div class="card-content">
-    <img src="${show.image?.medium || ""}" />
+      <div class="card-content">
+        <img src="${show.image?.medium || ""}" />
 
-    <div class="text">
-      <p>${show.summary}</p>
+        <div class="text">
+          <p>${show.summary}</p>
 
-      <div class="info-box">
-        <p><strong>Genres:</strong> ${show.genres.join(", ")}</p>
-        <p><strong>Status:</strong> ${show.status}</p>
-        <p><strong>Rating:</strong> ${show.rating?.average || "N/A"}</p>
-        <p><strong>Runtime:</strong> ${show.runtime} mins</p>
+          <div class="info-box">
+            <p><strong>Genres:</strong> ${show.genres.join(", ")}</p>
+            <p><strong>Status:</strong> ${show.status}</p>
+            <p><strong>Rating:</strong> ${show.rating?.average || "N/A"}</p>
+            <p><strong>Runtime:</strong> ${show.runtime} mins</p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-`;
+    `;
 
     card.onclick = () => openShow(show.id);
 
@@ -52,7 +77,9 @@ function renderShows(showList) {
   });
 }
 
-// 🔍 SHOW SEARCH
+// ========================
+// SHOW SEARCH
+// ========================
 function setupShowSearch() {
   const input = document.getElementById("show-search");
 
@@ -71,14 +98,19 @@ function setupShowSearch() {
   });
 }
 
-// 📺 OPEN SHOW
+// ========================
+// OPEN SHOW
+// ========================
 function openShow(showId) {
   document.getElementById("shows-view").style.display = "none";
   document.getElementById("episodes-view").style.display = "block";
 
   loadEpisodesForShow(showId);
 }
-// 🔙 BACK BUTTON
+
+// ========================
+// BACK BUTTON
+// ========================
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("back-btn").onclick = function () {
     document.getElementById("episodes-view").style.display = "none";
@@ -86,7 +118,9 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 });
 
-// 📺 LOAD EPISODES
+// ========================
+// LOAD EPISODES
+// ========================
 function loadEpisodesForShow(showId) {
   const message = document.getElementById("message");
 
@@ -112,15 +146,21 @@ function loadEpisodesForShow(showId) {
     });
 }
 
-// 🎬 RENDER EPISODES
+// ========================
+// RENDER EPISODES
+// ========================
 function renderEpisodes(list) {
   makePageForEpisodes(list);
   updateCount(list);
-  populateSelector(list);
+
+  populateSelector(allEpisodes);
+
   setupSearch();
 }
 
-// 🔍 EPISODE SEARCH
+// ========================
+// SEARCH EPISODES
+// ========================
 function setupSearch() {
   const searchInput = document.getElementById("search");
   searchInput.value = "";
@@ -139,7 +179,9 @@ function setupSearch() {
   };
 }
 
-// 📋 SELECTOR
+// ========================
+// EPISODE DROPDOWN
+// ========================
 function populateSelector(list) {
   const selector = document.getElementById("show-select");
   selector.innerHTML = "";
@@ -161,15 +203,19 @@ function populateSelector(list) {
 
   selector.onchange = function () {
     if (selector.value === "all") {
-      renderEpisodes(allEpisodes);
+      makePageForEpisodes(allEpisodes);
+      updateCount(allEpisodes);
     } else {
       const selected = allEpisodes.find((ep) => ep.id == selector.value);
-      renderEpisodes([selected]);
+      makePageForEpisodes([selected]);
+      updateCount([selected]);
     }
   };
 }
 
-// 🎬 CARDS
+// ========================
+// CREATE EPISODE CARDS
+// ========================
 function makePageForEpisodes(list) {
   const root = document.getElementById("root");
   root.innerHTML = "";
@@ -191,7 +237,9 @@ function makePageForEpisodes(list) {
   });
 }
 
-// 🔢 COUNTS
+// ========================
+// COUNTS
+// ========================
 function updateShowCount(filtered, total) {
   document.getElementById("show-count").textContent =
     `Found ${filtered} / ${total} shows`;
