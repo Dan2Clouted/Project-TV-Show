@@ -1,6 +1,8 @@
 let allShows = [];
 let allEpisodes = [];
 let episodeCache = {};
+let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
+let showFavouritesOnly = false;
 
 // ========================
 // INIT
@@ -41,6 +43,25 @@ function populateShowSelector(shows) {
   };
 }
 
+function sortShows(shows, type) {
+  const sorted = [...shows];
+
+  if (type === "rating") {
+    sorted.sort((a, b) => {
+      const aRating = a.rating?.average || 0;
+      const bRating = b.rating?.average || 0;
+      return bRating - aRating; // highest first
+    });
+  } else {
+    // default A–Z
+    sorted.sort((a, b) =>
+      a.name.toLowerCase().localeCompare(b.name.toLowerCase()),
+    );
+  }
+
+  return sorted;
+}
+
 // ========================
 // RENDER SHOWS
 // ========================
@@ -53,13 +74,19 @@ function renderShows(showList) {
     card.classList.add("show-card");
 
     card.innerHTML = `
-      <h2>${show.name}</h2>
+      <div class="card-header">
+        <h2>${show.name}</h2>
+        <button class="fav-btn">${favourites.includes(show.id) ? "★" : "☆"}</button>
+      </div>
 
       <div class="card-content">
         <img src="${show.image?.medium || ""}" />
 
         <div class="text">
-          <p>${show.summary}</p>
+          <div class="summary">
+            ${show.summary}
+          </div>
+          <button class="read-more-btn">Read more</button>
 
           <div class="info-box">
             <p><strong>Genres:</strong> ${show.genres.join(", ")}</p>
@@ -71,9 +98,48 @@ function renderShows(showList) {
       </div>
     `;
 
-    card.onclick = () => openShow(show.id);
-
     container.appendChild(card);
+
+    // FAVOURITE LOGIC
+    const favBtn = card.querySelector(".fav-btn");
+
+    favBtn.onclick = function (e) {
+      e.stopPropagation();
+
+      if (favourites.includes(show.id)) {
+        favourites = favourites.filter((id) => id !== show.id);
+        favBtn.textContent = "☆";
+      } else {
+        favourites.push(show.id);
+        favBtn.textContent = "★";
+      }
+
+      localStorage.setItem("favourites", JSON.stringify(favourites));
+    };
+
+    // READ MORE LOGIC
+    const summary = card.querySelector(".summary");
+    const button = card.querySelector(".read-more-btn");
+
+    const fullText = summary.innerText;
+    const shortText = fullText.slice(0, 150) + "...";
+
+    summary.innerText = shortText;
+
+    button.onclick = function (e) {
+      e.stopPropagation();
+
+      if (button.textContent === "Read more") {
+        summary.innerText = fullText;
+        button.textContent = "Read less";
+      } else {
+        summary.innerText = shortText;
+        button.textContent = "Read more";
+      }
+    };
+
+    // CARD CLICK
+    card.onclick = () => openShow(show.id);
   });
 }
 
@@ -82,20 +148,48 @@ function renderShows(showList) {
 // ========================
 function setupShowSearch() {
   const input = document.getElementById("show-search");
+  const sortSelect = document.getElementById("sort-select");
+  const favToggle = document.getElementById("fav-toggle");
 
-  input.addEventListener("input", function () {
+  function updateView() {
     const term = input.value.toLowerCase();
+    const sortType = sortSelect.value;
 
-    const filtered = allShows.filter(
+    let filtered = allShows.filter(
       (show) =>
         show.name.toLowerCase().includes(term) ||
         show.genres.join(" ").toLowerCase().includes(term) ||
         show.summary.toLowerCase().includes(term),
     );
 
-    renderShows(filtered);
+    // apply favourites filter
+    if (showFavouritesOnly) {
+      filtered = filtered.filter((show) => favourites.includes(show.id));
+    }
+
+    if (showFavouritesOnly && filtered.length === 0) {
+      document.getElementById("shows-container").innerHTML =
+        "<p style='text-align:center; margin-top:40px;'>⭐ No favourite shows yet</p>";
+      updateShowCount(0, allShows.length);
+      return;
+    }
+    const sorted = sortShows(filtered, sortType);
+
+    renderShows(sorted);
     updateShowCount(filtered.length, allShows.length);
-  });
+  }
+
+  input.addEventListener("input", updateView);
+  sortSelect.addEventListener("change", updateView);
+
+  // toggle logic
+  favToggle.onclick = function () {
+    showFavouritesOnly = !showFavouritesOnly;
+
+    favToggle.classList.toggle("active");
+
+    updateView();
+  };
 }
 
 // ========================
