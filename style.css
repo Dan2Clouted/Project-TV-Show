@@ -5,10 +5,10 @@ body {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  padding-bottom: 70px;
+  padding-bottom: 90px;
 }
 
-/* 🔥 HEADER */
+/*  HEADER */
 .header {
   text-align: center;
   margin-bottom: 30px;
@@ -23,7 +23,7 @@ body {
   margin-bottom: 20px;
 }
 
-/* 🔥 SEARCH + SELECT WRAPPER */
+/* SEARCH + SELECT WRAPPER */
 .search-wrapper {
   display: flex;
   justify-content: center;
@@ -32,7 +32,7 @@ body {
   flex-wrap: wrap;
 }
 
-/* 🔍 SEARCH INPUT */
+/* SEARCH INPUT */
 .search-wrapper input {
   width: 300px;
   padding: 12px 20px;
@@ -48,27 +48,21 @@ body {
   outline: none;
 }
 
-/* 🎯 SHOW SELECTOR (FIXED STYLE) */
-#show-selector {
+/* SHOW SELECTOR + SORT SELECTOR */
+#show-selector,
+#sort-select {
   background-color: #1a1826;
   color: white;
-
   border: 1px solid #ffc900;
   border-radius: 30px;
-
   padding: 12px 20px;
   font-size: 1rem;
-
   cursor: pointer;
   outline: none;
-
-  min-width: 220px;
-
-  /* remove default browser style */
+  min-width: 200px;
   appearance: none;
 
-  /* custom arrow */
-  background-image: url("data:image/svg+xml;utf8,<svg fill='%23FFC900' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23FFC900' height='20' viewBox='0 0 24 24' width='20'><path d='M7 10l5 5 5-5z'/></svg>");
   background-repeat: no-repeat;
   background-position: right 15px center;
   background-size: 16px;
@@ -76,23 +70,185 @@ body {
   transition: all 0.2s ease;
 }
 
-#show-selector:hover {
+#show-selector:hover,
+#sort-select:hover {
   box-shadow: 0 0 10px #ffc900;
 }
 
-#show-selector option {
+#show-selector option,
+#sort-select option {
   background-color: #1a1826;
   color: white;
 }
 
-/* Episode Grid */
+/* SHOW GRID */
+#shows-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  row-gap: 35px;
+  column-gap: 20px;
+  margin: 50px 0;
+}
+
+/* CARD */
+.show-card {
+  background-color: #1a1826;
+  border-radius: 12px;
+  padding: 15px;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* HOVER */
+.show-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border: 1px solid #ffc900;
+
+  box-shadow:
+    0 12px 25px rgba(0, 0, 0, 0.8),
+    0 0 10px #ffc900;
+}
+
+/*  CARD STRUCTURE */
+.card-content {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+.card-content img {
+  width: 80px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* TEXT LAYOUT */
+.card-content .text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+/* SUMMARY */
+.summary {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 6px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* INFO BOX */
+.info-box {
+  background-color: #140f2b;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  margin-top: auto;
+}
+
+.info-box p {
+  margin: 3px 0;
+}
+
+/* TITLE */
+.show-card h2 {
+  font-size: 1rem;
+  color: #ffc900;
+  margin-bottom: 6px;
+}
+
+/*  CONTROLS */
+.controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+#back-btn {
+  background-color: #ffc900;
+  color: #0f0d19;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#search {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 1px solid #ffc900;
+  background-color: #1a1826;
+  color: white;
+  outline: none;
+}
+
+/*Favourite Button*/
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fav-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #ffc900;
+  cursor: pointer;
+}
+
+.fav-btn:hover {
+  transform: scale(1.2);
+}
+
+#fav-toggle {
+  background-color: #1a1826;
+  color: #ffc900;
+  border: 1px solid #ffc900;
+  border-radius: 30px;
+  padding: 12px 18px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#fav-toggle.active {
+  background-color: #ffc900;
+  color: #0f0d19;
+}
+
+/* EPISODE SELECT */
+#show-select {
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 1px solid #ffc900;
+  background-color: #1a1826;
+  color: white;
+  cursor: pointer;
+}
+
+/* EPISODES GRID */
 #root {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
 }
 
-/* Episode Cards */
 .episode-card {
   background-color: #1a1826;
   border-radius: 10px;
@@ -114,101 +270,23 @@ body {
 
 .episode-card img {
   width: 100%;
+  height: 140px;
+  object-fit: cover;
   border-radius: 6px;
+  margin: 8px 0;
 }
 
-/* 🔥 SHOW GRID */
-#shows-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-  margin: 40px 0;
-}
-
-.show-card {
-  background-color: #1a1826;
-  border-radius: 10px;
-  padding: 15px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  min-height: 350px;
-}
-
-.show-card img {
-  width: 100%;
-  height: 120px;
-  object-fit: contain;
-  margin-bottom: 8px;
-}
-
-.show-card p {
-  font-size: 0.85rem;
-  overflow: hidden;
+.episode-card p {
+  font-size: 0.9rem;
+  line-height: 1.4;
 
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.show-card h2 {
-  font-size: 1rem;
-  color: #ffc900;
-  margin-bottom: 6px;
-}
-
-.show-card:hover {
-  transform: scale(1.03);
-  border: 1px solid #ffc900;
-}
-
-/* 🎛 CONTROLS */
-.controls {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  justify-content: space-between;
-  margin: 20px 0;
-  flex-wrap: wrap;
-}
-
-#back-btn {
-  background-color: #ffc900;
-  color: #0f0d19;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-#back-btn:hover {
-  opacity: 0.9;
-}
-
-#search {
-  flex: 1;
-  padding: 10px 15px;
-  border-radius: 20px;
-  border: 1px solid #ffc900;
-  background-color: #1a1826;
-  color: white;
-  outline: none;
-}
-
-/* 🎯 EPISODE SELECT */
-#show-select {
-  padding: 10px 15px;
-  border-radius: 20px;
-  border: 1px solid #ffc900;
-  background-color: #1a1826;
-  color: white;
-  cursor: pointer;
-}
-
-/* Buttons */
+/* BUTTONS */
 button {
   background-color: #ffc900;
   color: #0f0d19;
@@ -219,7 +297,20 @@ button {
   border-radius: 6px;
 }
 
-/* Footer */
+.read-more-btn {
+  background: none;
+  border: none;
+  color: #ffc900;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.read-more-btn:hover {
+  text-decoration: underline;
+}
+
+/* FOOTER */
 .footer {
   position: fixed;
   bottom: 0;
@@ -231,6 +322,5 @@ button {
 
   text-align: center;
   padding: 10px;
-
   font-weight: bold;
 }
